@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Cake Libros - Explorador Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --border-color: #e2e8f0;
+            --success: #10b981;
+            --shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-bar button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Text Area Section */
+        .textarea-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        .textarea-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .textarea-section textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .textarea-section textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Code Squares Section */
+        .code-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .code-section h2 {
+            margin-bottom: 20px;
+            color: var(--dark-text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-field label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-text);
+        }
+
+        .input-field input,
+        .input-field textarea {
+            padding: 10px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus,
+        .input-field textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .input-field input[type="color"] {
+            height: 45px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--success), #06b6d4);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Squares Display */
+        .squares-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .code-square {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .code-square:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .square-color {
+            height: 120px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .square-content {
+            padding: 15px;
+            background: white;
+        }
+
+        .square-title {
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .square-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .square-code {
+            background: var(--light-bg);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .square-delete {
+            width: 100%;
+            padding: 8px;
+            background: #fee2e2;
+            border: none;
+            color: #dc2626;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .square-delete:hover {
+            background: #fecaca;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .code-input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .squares-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍰 Los Cake Libros</h1>
+            <p>Explorador Web - Crea y Busca Contenido</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h3 style="margin-bottom: 15px; color: var(--dark-text);">🔍 Buscar en la Web</h3>
+            <div class="search-bar">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Escribe lo que quieres buscar..." 
+                />
+                <button onclick="searchWeb()">Buscar</button>
+            </div>
+            <div id="searchResults" style="margin-top: 15px; color: #64748b;"></div>
+        </div>
+
+        <!-- Textarea Section -->
+        <div class="textarea-section">
+            <label for="textContent">📝 Contenido de Texto</label>
+            <textarea 
+                id="textContent" 
+                placeholder="Escribe aquí el contenido que desees guardar o compartir..."
+            ></textarea>
+        </div>
+
+        <!-- Code Squares Section -->
+        <div class="code-section">
+            <h2>🎨 Generador de Cuadrados de Código</h2>
+            
+            <div class="code-input-group">
+                <div class="input-field">
+                    <label for="colorInput">Color</label>
+                    <input 
+                        type="color" 
+                        id="colorInput" 
+                        value="#6366f1"
+                    />
+                </div>
+                <div class="input-field">
+                    <label for="titleInput">Título</label>
+                    <input 
+                        type="text" 
+                        id="titleInput" 
+                        placeholder="Ej: Mi Código"
+                    />
+                </div>
+                <div class="input-field">
+                    <label for="textInput">Texto</label>
+                    <input 
+                        type="text" 
+                        id="textInput" 
+                        placeholder="Ej: Descripción breve"
+                    />
+                </div>
+                <div class="input-field">
+                    <label for="codeInput">Código</label>
+                    <input 
+                        type="text" 
+                        id="codeInput" 
+                        placeholder="Ej: #ffffff"
+                    />
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-add" onclick="addSquare()">➕ Agregar Cuadrado</button>
+                <button class="btn btn-clear" onclick="clearAll()">🗑️ Limpiar Todo</button>
+            </div>
+
+            <div class="squares-grid" id="squaresContainer">
+                <div class="empty-state">
+                    <p>📦 No hay cuadrados aún. ¡Crea uno para comenzar!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array para guardar los cuadrados
+        let squares = JSON.parse(localStorage.getItem('cakeLibroSquares')) || [];
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSquares();
+            loadTextContent();
+        });
+
+        // Agregar cuadrado
+        function addSquare() {
+            const color = document.getElementById('colorInput').value;
+            const title = document.getElementById('titleInput').value.trim();
+            const text = document.getElementById('textInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+
+            if (!title || !text || !code) {
+                alert('⚠️ Por favor, completa todos los campos');
+                return;
+            }
+
+            const square = {
+                id: Date.now(),
+                color,
+                title,
+                text,
+                code
+            };
+
+            squares.push(square);
+            saveSquares();
+            renderSquares();
+            clearInputs();
+        }
+
+        // Renderizar cuadrados
+        function renderSquares() {
+            const container = document.getElementById('squaresContainer');
+            
+            if (squares.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>📦 No hay cuadrados aún. ¡Crea uno para comenzar!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = squares.map(square => `
+                <div class="code-square">
+                    <div class="square-color" style="background-color: ${square.color}">
+                        ${square.color}
+                    </div>
+                    <div class="square-content">
+                        <div class="square-title">${escapeHtml(square.title)}</div>
+                        <div class="square-text">${escapeHtml(square.text)}</div>
+                        <div class="square-code">${escapeHtml(square.code)}</div>
+                        <button class="square-delete" onclick="deleteSquare(${square.id})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Eliminar cuadrado
+        function deleteSquare(id) {
+            squares = squares.filter(square => square.id !== id);
+            saveSquares();
+            renderSquares();
+        }
+
+        // Limpiar todo
+        function clearAll() {
+            if (confirm('¿Estás seguro de que deseas eliminar todos los cuadrados?')) {
+                squares = [];
+                saveSquares();
+                renderSquares();
+            }
+        }
+
+        // Guardar en localStorage
+        function saveSquares() {
+            localStorage.setItem('cakeLibroSquares', JSON.stringify(squares));
+        }
+
+        // Limpiar inputs
+        function clearInputs() {
+            document.getElementById('titleInput').value = '';
+            document.getElementById('textInput').value = '';
+            document.getElementById('codeInput').value = '';
+        }
+
+        // Buscar en la web
+        function searchWeb() {
+            const query = document.getElementById('searchInput').value.trim();
+            
+            if (!query) {
+                alert('⚠️ Por favor, ingresa un término de búsqueda');
+                return;
+            }
+
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            window.open(searchUrl, '_blank');
+            
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = `✅ Búsqueda abierta en Google: "<strong>${escapeHtml(query)}</strong>"`;
+        }
+
+        // Permitir Enter para buscar
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchWeb();
+            });
+        });
+
+        // Guardar contenido de texto
+        document.addEventListener('DOMContentLoaded', () => {
+            const textarea = document.getElementById('textContent');
+            textarea.addEventListener('blur', () => {
+                localStorage.setItem('cakeLibroText', textarea.value);
+            });
+        });
+
+        // Cargar contenido de texto
+        function loadTextContent() {
+            const saved = localStorage.getItem('cakeLibroText');
+            if (saved) {
+                document.getElementById('textContent').value = saved;
+            }
+        }
+
+        // Función para escapar HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
