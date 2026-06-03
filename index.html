@@ -466,8 +466,34 @@
     </div>
 
     <script>
-        // Array para guardar los cuadrados
-        let squares = JSON.parse(localStorage.getItem('cakeLibroSquares')) || [];
+        // ===== DATOS INTERNOS DEL CÓDIGO =====
+        // Array para guardar los cuadrados (datos en memoria)
+        let squares = [
+            {
+                id: 1,
+                color: '#FF6B6B',
+                title: 'JavaScript',
+                text: 'Lenguaje de programación web',
+                code: 'console.log("Hola");'
+            },
+            {
+                id: 2,
+                color: '#4ECDC4',
+                title: 'HTML',
+                text: 'Estructura de documentos web',
+                code: '<div class="container"></div>'
+            },
+            {
+                id: 3,
+                color: '#FFE66D',
+                title: 'CSS',
+                text: 'Estilos y diseño',
+                code: '.clase { color: blue; }'
+            }
+        ];
+
+        // Contenido de texto interno
+        let textContent = 'Bienvenido a Los Cake Libros. Aquí puedes crear y organizar cuadrados de código con colores personalizados.';
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', () => {
@@ -496,7 +522,6 @@
             };
 
             squares.push(square);
-            saveSquares();
             renderSquares();
             clearInputs();
         }
@@ -534,7 +559,6 @@
         // Eliminar cuadrado
         function deleteSquare(id) {
             squares = squares.filter(square => square.id !== id);
-            saveSquares();
             renderSquares();
         }
 
@@ -542,14 +566,8 @@
         function clearAll() {
             if (confirm('¿Estás seguro de que deseas eliminar todos los cuadrados?')) {
                 squares = [];
-                saveSquares();
                 renderSquares();
             }
-        }
-
-        // Guardar en localStorage
-        function saveSquares() {
-            localStorage.setItem('cakeLibroSquares', JSON.stringify(squares));
         }
 
         // Limpiar inputs
@@ -582,20 +600,17 @@
             });
         });
 
-        // Guardar contenido de texto
+        // Actualizar contenido de texto
         document.addEventListener('DOMContentLoaded', () => {
             const textarea = document.getElementById('textContent');
-            textarea.addEventListener('blur', () => {
-                localStorage.setItem('cakeLibroText', textarea.value);
+            textarea.addEventListener('input', () => {
+                textContent = textarea.value;
             });
         });
 
         // Cargar contenido de texto
         function loadTextContent() {
-            const saved = localStorage.getItem('cakeLibroText');
-            if (saved) {
-                document.getElementById('textContent').value = saved;
-            }
+            document.getElementById('textContent').value = textContent;
         }
 
         // Función para escapar HTML
