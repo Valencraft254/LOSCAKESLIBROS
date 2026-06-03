@@ -153,48 +153,6 @@
             gap: 10px;
         }
 
-        .code-input-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .input-field {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .input-field label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--dark-text);
-        }
-
-        .input-field input,
-        .input-field textarea {
-            padding: 10px 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .input-field input:focus,
-        .input-field textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .input-field input[type="color"] {
-            height: 45px;
-            cursor: pointer;
-        }
-
         .button-group {
             display: flex;
             gap: 10px;
@@ -211,25 +169,15 @@
             font-size: 0.95rem;
         }
 
-        .btn-add {
-            background: linear-gradient(135deg, var(--success), #06b6d4);
+        .btn-reload {
+            background: linear-gradient(135deg, #06b6d4, var(--primary-color));
             color: white;
             flex: 1;
         }
 
-        .btn-add:hover {
+        .btn-reload:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-clear {
-            background: linear-gradient(135deg, #ef4444, #f97316);
-            color: white;
-        }
-
-        .btn-clear:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
         }
 
         /* Squares Display */
@@ -295,34 +243,10 @@
             margin-bottom: 10px;
         }
 
-        .square-delete {
-            width: 100%;
-            padding: 8px;
-            background: #fee2e2;
-            border: none;
-            color: #dc2626;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-        }
-
-        .square-delete:hover {
-            background: #fecaca;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #94a3b8;
-        }
-
-        .empty-state svg {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 15px;
-            opacity: 0.5;
         }
 
         /* Animations */
@@ -369,10 +293,6 @@
                 flex-direction: column;
             }
 
-            .code-input-group {
-                grid-template-columns: 1fr;
-            }
-
             .button-group {
                 flex-direction: column;
             }
@@ -410,120 +330,73 @@
             <textarea 
                 id="textContent" 
                 placeholder="Escribe aquí el contenido que desees guardar o compartir..."
-            ></textarea>
+            >Bienvenido a Los Cake Libros. Aquí puedes crear y organizar cuadrados de código con colores personalizados.</textarea>
         </div>
 
         <!-- Code Squares Section -->
         <div class="code-section">
-            <h2>🎨 Generador de Cuadrados de Código</h2>
+            <h2>🎨 Cuadrados de Código</h2>
             
-            <div class="code-input-group">
-                <div class="input-field">
-                    <label for="colorInput">Color</label>
-                    <input 
-                        type="color" 
-                        id="colorInput" 
-                        value="#6366f1"
-                    />
-                </div>
-                <div class="input-field">
-                    <label for="titleInput">Título</label>
-                    <input 
-                        type="text" 
-                        id="titleInput" 
-                        placeholder="Ej: Mi Código"
-                    />
-                </div>
-                <div class="input-field">
-                    <label for="textInput">Texto</label>
-                    <input 
-                        type="text" 
-                        id="textInput" 
-                        placeholder="Ej: Descripción breve"
-                    />
-                </div>
-                <div class="input-field">
-                    <label for="codeInput">Código</label>
-                    <input 
-                        type="text" 
-                        id="codeInput" 
-                        placeholder="Ej: #ffffff"
-                    />
-                </div>
-            </div>
-
             <div class="button-group">
-                <button class="btn btn-add" onclick="addSquare()">➕ Agregar Cuadrado</button>
-                <button class="btn btn-clear" onclick="clearAll()">🗑️ Limpiar Todo</button>
+                <button class="btn btn-reload" onclick="reloadSquares()">🔄 Recargar Cuadrados</button>
             </div>
 
             <div class="squares-grid" id="squaresContainer">
                 <div class="empty-state">
-                    <p>📦 No hay cuadrados aún. ¡Crea uno para comenzar!</p>
+                    <p>📦 No hay cuadrados. Modifica la sección SQUARES_DATA en el código.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== DATOS INTERNOS DEL CÓDIGO =====
-        // Array para guardar los cuadrados (datos en memoria)
-        let squares = [
+        // ===== MODIFICAR AQUÍ TUS CUADRADOS =====
+        // Agrega, edita o elimina cuadrados directamente en este array
+        const SQUARES_DATA = [
             {
-                id: 1,
                 color: '#FF6B6B',
                 title: 'JavaScript',
                 text: 'Lenguaje de programación web',
                 code: 'console.log("Hola");'
             },
             {
-                id: 2,
                 color: '#4ECDC4',
                 title: 'HTML',
                 text: 'Estructura de documentos web',
                 code: '<div class="container"></div>'
             },
             {
-                id: 3,
                 color: '#FFE66D',
                 title: 'CSS',
                 text: 'Estilos y diseño',
                 code: '.clase { color: blue; }'
+            },
+            {
+                color: '#95E1D3',
+                title: 'React',
+                text: 'Librería de JavaScript',
+                code: 'const App = () => <div>Hola</div>;'
             }
         ];
+        // ===== FIN DE DATOS - MODIFICA ARRIBA =====
 
-        // Contenido de texto interno
-        let textContent = 'Bienvenido a Los Cake Libros. Aquí puedes crear y organizar cuadrados de código con colores personalizados.';
+        let squares = [];
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', () => {
-            renderSquares();
-            loadTextContent();
+            reloadSquares();
         });
 
-        // Agregar cuadrado
-        function addSquare() {
-            const color = document.getElementById('colorInput').value;
-            const title = document.getElementById('titleInput').value.trim();
-            const text = document.getElementById('textInput').value.trim();
-            const code = document.getElementById('codeInput').value.trim();
-
-            if (!title || !text || !code) {
-                alert('⚠️ Por favor, completa todos los campos');
-                return;
-            }
-
-            const square = {
-                id: Date.now(),
-                color,
-                title,
-                text,
-                code
-            };
-
-            squares.push(square);
+        // Recargar cuadrados desde SQUARES_DATA
+        function reloadSquares() {
+            squares = SQUARES_DATA.map((item, index) => ({
+                id: index,
+                color: item.color,
+                title: item.title,
+                text: item.text,
+                code: item.code
+            }));
             renderSquares();
-            clearInputs();
         }
 
         // Renderizar cuadrados
@@ -533,7 +406,7 @@
             if (squares.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <p>📦 No hay cuadrados aún. ¡Crea uno para comenzar!</p>
+                        <p>📦 No hay cuadrados. Modifica la sección SQUARES_DATA en el código.</p>
                     </div>
                 `;
                 return;
@@ -548,33 +421,9 @@
                         <div class="square-title">${escapeHtml(square.title)}</div>
                         <div class="square-text">${escapeHtml(square.text)}</div>
                         <div class="square-code">${escapeHtml(square.code)}</div>
-                        <button class="square-delete" onclick="deleteSquare(${square.id})">
-                            🗑️ Eliminar
-                        </button>
                     </div>
                 </div>
             `).join('');
-        }
-
-        // Eliminar cuadrado
-        function deleteSquare(id) {
-            squares = squares.filter(square => square.id !== id);
-            renderSquares();
-        }
-
-        // Limpiar todo
-        function clearAll() {
-            if (confirm('¿Estás seguro de que deseas eliminar todos los cuadrados?')) {
-                squares = [];
-                renderSquares();
-            }
-        }
-
-        // Limpiar inputs
-        function clearInputs() {
-            document.getElementById('titleInput').value = '';
-            document.getElementById('textInput').value = '';
-            document.getElementById('codeInput').value = '';
         }
 
         // Buscar en la web
@@ -599,19 +448,6 @@
                 if (e.key === 'Enter') searchWeb();
             });
         });
-
-        // Actualizar contenido de texto
-        document.addEventListener('DOMContentLoaded', () => {
-            const textarea = document.getElementById('textContent');
-            textarea.addEventListener('input', () => {
-                textContent = textarea.value;
-            });
-        });
-
-        // Cargar contenido de texto
-        function loadTextContent() {
-            document.getElementById('textContent').value = textContent;
-        }
 
         // Función para escapar HTML
         function escapeHtml(text) {
